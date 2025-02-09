@@ -15,7 +15,7 @@ This project is my first experience using the python API, it is a Python applica
 ## 📥 Installation & Usage
 
 1. Clone the project:
- - `git clone https://github.com/your-username/weather-app.git`
+ - `git clone https://github.com/emirhaan11/WeatherApp.git`
  - `cd weather-app`
 
 2. Install dependencies:
