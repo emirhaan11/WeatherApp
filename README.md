@@ -1,2 +1,2 @@
-# WeatherApp
+# 🌤️ CustomTkinter Weather App
 
