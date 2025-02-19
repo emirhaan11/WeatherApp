@@ -4,12 +4,11 @@ import customtkinter as ctk
 from request_data import FiveDaysRequest
 from datetime import datetime, timedelta
 
-
 class WeatherApp(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Weather App")
-        self.geometry("400x350")
+        self.geometry("350x385")
         self.resizable(False,False)
         ctk.set_appearance_mode("light")
 
@@ -22,7 +21,7 @@ class WeatherApp(ctk.CTk):
         self.title_label = ctk.CTkLabel(self.main_frame, text="Weather Forecast", font=("Arial", 24, "bold"))
         self.title_label.pack(pady=10)
 
-        self.city_entry = ctk.CTkEntry(self.main_frame, placeholder_text="ENTER CITY NAME", font=("Arial", 14, "bold"))
+        self.city_entry = ctk.CTkEntry(self.main_frame, placeholder_text="ENTER CITY NAME", font=("Arial", 13, "bold"))
         self.city_entry.pack(pady=10)
         self.city_entry.bind("<Return>", lambda event: self.get_weather())
 
@@ -30,6 +29,7 @@ class WeatherApp(ctk.CTk):
                                                 font=("Arial", 14, "bold"), command=self.get_weather)
         self.get_weather_button.pack(pady=10)
 
+        # Sonuçları içeren çerçeve
         self.result_frame = ctk.CTkFrame(self.main_frame)
         self.result_frame.pack(pady=20, padx=20, fill="both", expand=True)
 
@@ -41,27 +41,25 @@ class WeatherApp(ctk.CTk):
 
         today = datetime.today()
         days = [(today + timedelta(days=i)).strftime("%A") for i in range(5)]
+
         
-        for day in days:
-            row_frame = ctk.CTkFrame(self.result_frame)
-            row_frame.pack(fill="x", padx=5, pady=2)
 
-            day_label = ctk.CTkLabel(row_frame, text=day, font=("Arial", 14, "bold"))
-            day_label.pack(side="left", padx=5)
+        for i, day in enumerate(days):
 
-            temp_label = ctk.CTkLabel(row_frame, text="- / - °C", font=("Arial", 14))
-            temp_label.pack(side="right", padx=10)
+            day_label = ctk.CTkLabel(self.result_frame, text=day, font=("Arial", 14, "bold"))
+            day_label.grid(row=i, column=0, padx=5, pady=5, sticky="w")  # Sola hizalı
 
-            maxicon_label = ctk.CTkLabel(row_frame, text="")
-            maxicon_label.pack(side="right", padx=5)
+            temp_label = ctk.CTkLabel(self.result_frame, text="max / min °C", font=("Arial", 14))
+            temp_label.grid(row=i, column=1, padx=10, pady=5)
 
-            minicon_label = ctk.CTkLabel(row_frame, text="")
-            minicon_label.pack(side="right", padx=5)
+            maxicon_label = ctk.CTkLabel(self.result_frame, text="")
+            maxicon_label.grid(row=i, column=2, padx=5, pady=5)
 
-            humidity_label = ctk.CTkLabel(row_frame, text="--%", font=("Arial", 12))
-            humidity_label.pack(side="right", padx=15)
+            minicon_label = ctk.CTkLabel(self.result_frame, text="")
+            minicon_label.grid(row=i, column=3, padx=5, pady=5)
 
-
+            humidity_label = ctk.CTkLabel(self.result_frame, text="humidity%", font=("Arial", 12))
+            humidity_label.grid(row=i, column=4, padx=15, pady=5)
 
             self.days_labels.append(day_label)
             self.humidity_labels.append(humidity_label)
@@ -69,8 +67,17 @@ class WeatherApp(ctk.CTk):
             self.min_icon_labels.append(minicon_label)
             self.temp_labels.append(temp_label)
 
+
     def get_weather(self):
         city = self.city_entry.get()
+
+        def check_day_or_night():
+            current_hour = datetime.now().hour  # Anlık saati al
+            if 6 <= current_hour < 18:
+                return "d"
+            else:
+                return "n"
+
         if city:
             weather = FiveDaysRequest(city)
             forecast_data = [
@@ -80,6 +87,7 @@ class WeatherApp(ctk.CTk):
                 weather.get_fourthDay_request(),
                 weather.get_fifthDay_request()
             ]
+        
 
             for i in range(5):
                 if forecast_data[i]:
@@ -92,8 +100,8 @@ class WeatherApp(ctk.CTk):
                     self.temp_labels[i].configure(text=f"{max_temp}°C / {min_temp}°C")
                     self.humidity_labels[i].configure(text=f"{humidity}%")
 
-                    max_icon_path = f"images/{max_icon_code}.png"
-                    min_icon_path = f"images/{min_icon_code}.png"
+                    max_icon_path = f"images/{max_icon_code[:-1] + check_day_or_night()}.png"
+                    min_icon_path = f"images/{min_icon_code[:-1] + check_day_or_night()}.png"
 
                     if os.path.exists(max_icon_path):
                         image = ctk.CTkImage(Image.open(max_icon_path), size=(30, 30))
