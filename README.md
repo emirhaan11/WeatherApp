@@ -9,8 +9,8 @@ This project is my first experience using the python API, it is a Python applica
 - Displays weather condition icons
 
 ## 🖼️ Screenshots
-![Ekran görüntüsü 2025-02-10 014920](https://github.com/user-attachments/assets/34df2832-88b7-41fb-b08e-48237fa9759e)
-![Ekran görüntüsü 2025-02-10 015036](https://github.com/user-attachments/assets/bf55abff-3fb1-4e1a-adab-c698dc74617b)
+![Ekran görüntüsü 2025-02-19 123001](https://github.com/user-attachments/assets/7fc022a6-10e2-4984-9b11-174d03ba08e7)
+![Ekran görüntüsü 2025-02-19 123020](https://github.com/user-attachments/assets/56b13160-c491-4f42-8478-9026438e589c)
 
 ## 📥 Installation & Usage
 
