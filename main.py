@@ -38,7 +38,9 @@ class WeatherApp(ctk.CTk):
         self.min_icon_labels = []
         self.temp_labels = []
 
-        days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+        today = datetime.today()
+        days = [(today + timedelta(days=i)).strftime("%A") for i in range(5)]
+        
         for day in days:
             row_frame = ctk.CTkFrame(self.result_frame)
             row_frame.pack(fill="x", padx=5, pady=2)
