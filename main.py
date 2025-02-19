@@ -2,6 +2,7 @@ import os
 from PIL import Image
 import customtkinter as ctk
 from request_data import FiveDaysRequest
+from datetime import datetime, timedelta
 
 
 class WeatherApp(ctk.CTk):
